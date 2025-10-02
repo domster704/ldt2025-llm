@@ -75,8 +75,7 @@ async def chat(request: ChatMessage):
     prompt = prompt.invoke({"input": request.message})
 
     try:
-        chain = prompt | llm
-        result = await chain.ainvoke({})
+        result = await llm.ainvoke(prompt)
         raw_content = result.content.strip()
 
         regex_pattern = r"<think>[\s\S]*?</think>\n*\s*"  # Matches <think>...</think> and any following whitespace
@@ -89,7 +88,7 @@ async def chat(request: ChatMessage):
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Ошибка генерации структурированного ответа: {str(e)}",
+            detail=f"Ошибка генерации ответа: {str(e)}",
         )
 
 
