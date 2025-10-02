@@ -12,10 +12,8 @@ from prompt import SYSTEM_PROMPT
 app = FastAPI(title="LLM API", version="1.0.0")
 
 MODEL_PATH = os.getenv("MODEL_PATH", "")
-LLM_SERVER_URL = os.getenv("LLM_SERVER_URL", "http://localhost:8000")
-TEMPERATURE = float(os.getenv("TEMPERATURE", "0.7"))
-MAX_TOKENS = int(os.getenv("MAX_TOKENS", "512"))
-TOP_P = float(os.getenv("TOP_P", "0.9"))
+LLM_SERVER_URL = os.getenv("LLM_SERVER_URL", "http://localhost:8005")
+TEMPERATURE = float(os.getenv("TEMPERATURE", "0.0"))
 
 llm = ChatOpenAI(
     model=MODEL_PATH if MODEL_PATH else "Qwen/Qwen3-8B",
@@ -24,8 +22,6 @@ llm = ChatOpenAI(
     request_timeout=30,
     max_retries=5,
     temperature=TEMPERATURE,
-    max_tokens=MAX_TOKENS,
-    top_p=TOP_P,
     extra_body={
         "chat_template_kwargs": {"enable_thinking": False},
     },
