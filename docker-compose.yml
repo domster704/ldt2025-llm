@@ -7,8 +7,6 @@ services:
       - PYTHONUNBUFFERED=1
       - MODEL_PATH=
       - LLM_SERVER_URL=http://localhost:8005
-      - TEMPERATURE=0.0
-      - TOP_P=0.9
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]

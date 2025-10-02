@@ -15,32 +15,18 @@ app = FastAPI(title="LLM API", version="1.0.0")
 
 @app.on_event("startup")
 async def startup_event():
-    """Validate LLM connection on startup."""
     try:
         test_prompt = ChatPromptTemplate([("user", "test")])
         await llm.ainvoke(test_prompt)
-        print("✅ LLM connection validated successfully")
+        print("LLM connection validated successfully")
     except Exception as e:
-        print(f"⚠️  Warning: LLM connection validation failed: {e}")
-        print("Service will start but may not function properly")
+        print(f"Warning: LLM connection validation failed: {e}")
 
 
 # Environment variables validation
 MODEL_PATH = os.getenv("MODEL_PATH", "")
 LLM_SERVER_URL = os.getenv("LLM_SERVER_URL", "http://localhost:8005")
-TEMPERATURE_STR = os.getenv("TEMPERATURE", "0.0")
 
-try:
-    TEMPERATURE = float(TEMPERATURE_STR)
-except ValueError:
-    raise ValueError(
-        f"Invalid TEMPERATURE value: {TEMPERATURE_STR}. Must be a valid float."
-    )
-
-if not LLM_SERVER_URL.startswith(("http://", "https://")):
-    raise ValueError(
-        f"Invalid LLM_SERVER_URL: {LLM_SERVER_URL}. Must start with http:// or https://"
-    )
 
 llm = ChatOpenAI(
     model=MODEL_PATH if MODEL_PATH else "Qwen/Qwen3-8B",
@@ -48,11 +34,9 @@ llm = ChatOpenAI(
     openai_api_base=f"{LLM_SERVER_URL}/v1/",  # type: ignore
     request_timeout=30,
     max_retries=5,
-    temperature=TEMPERATURE,
     extra_body={
         "chat_template_kwargs": {"enable_thinking": False},
     },
-    model_kwargs={"response_format": {"type": "json_object"}},
 )
 
 
