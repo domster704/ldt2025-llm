@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+langchain
+langchain-community
+llama-cpp-python
+pydantic
+python-multipart
+langchain-openai==0.3.33
+
