@@ -165,7 +165,9 @@ async def health_check():
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatMessage):
 
-    user_prompt = f"На основе следующих данных составь анамнез строго по структуре JSON: {request.message}"
+    user_prompt = (
+        "На основе следующих данных составь анамнез строго по структуре JSON: {input}"
+    )
     prompt = ChatPromptTemplate(
         [
             (
