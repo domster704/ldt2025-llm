@@ -15,5 +15,8 @@ COPY . .
 
 EXPOSE 8001
 
+ENV MODEL_PATH="Qwen/Qwen3-8B"
+ENV LLM_SERVER_URL="http://localhost:8005"
+
 # Run the application
 CMD ["python", "main.py"]
